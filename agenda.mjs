@@ -1,40 +1,48 @@
-export function createAgendaItem(topic, startDate) {
+
+function formatDate(date) {
+  return date.toISOString().split("T")[0];
+}
+
+function addDays(startDate, days) {
   const date = new Date(startDate);
-  const oneWeek = new Date(date);
-  oneWeek.setDate(oneWeek.getDate() + 7);
+  date.setUTCDate(date.getUTCDate() + days);
+  return formatDate(date);
+}
 
-  const oneMonth = new Date(date);
-  oneMonth.setMonth(oneMonth.getMonth() + 1);
+function addMonths(startDate, months) {
+  const date = new Date(startDate);
+  date.setUTCMonth(date.getUTCMonth() + months);
+  return formatDate(date);
+}
 
-  const threeMonths = new Date(date);
-  threeMonths.setMonth(threeMonths.getMonth() + 3);
+function addYears(startDate, years) {
+  const date = new Date(startDate);
+  date.setUTCFullYear(date.getUTCFullYear() + years);
+  return formatDate(date);
+}
 
-  const sixMonths = new Date(date);
-  sixMonths.setMonth(sixMonths.getMonth() + 6);
 
-  const oneYear = new Date(date);
-  oneYear.setFullYear(oneYear.getFullYear() + 1);
-
+export function createAgendaItem(topic, startDate) {
   return [
     {
       topic: topic,
-      date: oneWeek,
+      date: addDays(startDate, 7),
     },
     {
       topic: topic,
-      date: oneMonth,
+      date: addMonths(startDate, 1),
     },
     {
       topic: topic,
-      date: threeMonths,
+      date: addMonths(startDate, 3),
     },
     {
       topic: topic,
-      date: sixMonths,
+      date: addMonths(startDate, 6),
     },
     {
       topic: topic,
-      date: oneYear,
+      date: addYears(startDate, 1),
     },
   ];
 }
