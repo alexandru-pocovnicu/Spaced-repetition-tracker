@@ -1,5 +1,6 @@
 import { getUserIds } from "./common.mjs";
 import { getData, addData } from "./storage.mjs";
+import { createAgendaItem } from "./agenda.mjs";
 const users = getUserIds();
 let usersDropdown;
 let message;
@@ -63,7 +64,7 @@ function formSubmit(event) {
   revisionDate.value = getTodayDate();
 }
 
-export function createAgendaItem(topic, startDate) {
+//export function createAgendaItem(topic, startDate) {
   const date = new Date(startDate);
   const oneWeek = new Date(date);
   oneWeek.setDate(oneWeek.getDate() + 7);
@@ -102,7 +103,7 @@ export function createAgendaItem(topic, startDate) {
       date: oneYear,
     },
   ];
-}
+//}
 
 function addUsersToDropdown() {
   for (const user of users) {
