@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
     <script type="module" src="script.mjs"></script>
@@ -13,6 +13,19 @@
         <p id="message" hidden>This user has no agenda</p>
         <ul id="agenda-list"></ul>
       </section>
+      <form id="topic-form" hidden>
+        <label for="topic-name">Topic name:</label>
+        <input
+          id="topic-name"
+          required
+          type="text"
+          name="topic-name"
+          minlength="3"
+        />
+        <label for="date-picker">Revision date:</label>
+        <input id="date-picker" type="date" name="date-picker" required />
+        <button type="submit">Add topic</button>
+      </form>
     </main>
   </body>
 </html>

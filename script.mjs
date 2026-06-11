@@ -3,11 +3,13 @@ import { getData } from "./storage.mjs";
 const users = getUserIds();
 let usersDropdown;
 let message;
-let agendaList
+let agendaList;
+let topicForm;
 window.onload = function () {
   usersDropdown = document.getElementById("users-dropdown");
   message = document.getElementById("message");
-  agendaList=document.getElementById("agenda-list")
+  agendaList = document.getElementById("agenda-list");
+  topicForm = document.getElementById("topic-form");
   addUsersToDropdown();
   usersDropdown.addEventListener("change", selectedUser);
 };
@@ -25,22 +27,26 @@ function selectedUser() {
   const selectedUserId = usersDropdown.value;
   if (selectedUserId === "") {
     message.hidden = true;
+    topicForm.hidden = true;
+    agendaList.innerHTML = "";
     return;
   }
   const userAgenda = getData(selectedUserId) || [];
   if (userAgenda.length === 0) {
     message.hidden = false;
+    agendaList.innerHTML = "";
   } else {
     message.hidden = true;
-    displayAgenda(userAgenda)
+    displayAgenda(userAgenda);
   }
+  topicForm.hidden = false;
 }
 
-function displayAgenda(userAgenda){
-  agendaList.innerHTML=""
-  for(const item of userAgenda){
-    const listItem=document.createElement("li")
-    listItem.innerText=item
-    agendaList.append(listItem)
+function displayAgenda(userAgenda) {
+  agendaList.innerHTML = "";
+  for (const item of userAgenda) {
+    const listItem = document.createElement("li");
+    listItem.innerText = item;
+    agendaList.append(listItem);
   }
 }
