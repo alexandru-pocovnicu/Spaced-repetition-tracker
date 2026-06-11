@@ -14,25 +14,25 @@ window.onload = function () {
   topicForm = document.getElementById("topic-form");
   topicName = document.getElementById("topic-name");
   revisionDate = document.getElementById("revision-date");
-  revisionDate.value=getTodayDate()
+  revisionDate.value = getTodayDate();
   addUsersToDropdown();
   usersDropdown.addEventListener("change", selectedUser);
   topicForm.addEventListener("submit", formSubmit);
 };
 
-function removePastDates(agenda){
-  const today=new Date(getTodayDate()) 
-  return agenda.filter((item)=>{
-    const itemDate=new Date(item.date)
-    return itemDate>=today
-  })
+function removePastDates(agenda) {
+  const today = new Date(getTodayDate());
+  return agenda.filter((item) => {
+    const itemDate = new Date(item.date);
+    return itemDate >= today;
+  });
 }
-function sortAgenda(agenda){
-return agenda.sort((a,b)=>new Date(a.date)-new Date(b.date))
+function sortAgenda(agenda) {
+  return agenda.sort((a, b) => new Date(a.date) - new Date(b.date));
 }
-function getTodayDate(){
-  const today=new Date()
-  return today.toISOString().split("T")[0]
+function getTodayDate() {
+  const today = new Date();
+  return today.toISOString().split("T")[0];
 }
 
 function formSubmit(event) {
@@ -48,13 +48,19 @@ function formSubmit(event) {
   const date = revisionDate.value;
 
   const agendaItems = createAgendaItem(topic, date);
-  addData(selectedUserId,agendaItems)
-  const updatedAgenda=getData(selectedUserId)||[]
-  message.hidden=true
-  const futureAgenda=removePastDates(updatedAgenda)
-  displayAgenda(sortAgenda(futureAgenda))
-  topicName.value=""
-  revisionDate.value=getTodayDate()
+  addData(selectedUserId, agendaItems);
+  const updatedAgenda = getData(selectedUserId) || [];
+  const futureAgenda = removePastDates(updatedAgenda);
+
+  if (futureAgenda.length === 0) {
+    message.hidden = false;
+    agendaList.innerHTML = "";
+  } else {
+    message.hidden = true;
+    displayAgenda(sortAgenda(futureAgenda));
+  }
+  topicName.value = "";
+  revisionDate.value = getTodayDate();
 }
 
 function createAgendaItem(topic, startDate) {
@@ -120,14 +126,13 @@ function selectedUser() {
     message.hidden = false;
     agendaList.innerHTML = "";
   } else {
-    
     const futureAgenda = removePastDates(userAgenda);
-    if(futureAgenda.length===0){
-      message.hidden=false
-      agendaList.innerHTML=""
-    }else{
-message.hidden = true;
-displayAgenda(sortAgenda(futureAgenda))
+    if (futureAgenda.length === 0) {
+      message.hidden = false;
+      agendaList.innerHTML = "";
+    } else {
+      message.hidden = true;
+      displayAgenda(sortAgenda(futureAgenda));
     }
     displayAgenda(sortAgenda(futureAgenda));
   }
