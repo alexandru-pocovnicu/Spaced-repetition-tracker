@@ -120,8 +120,15 @@ function selectedUser() {
     message.hidden = false;
     agendaList.innerHTML = "";
   } else {
-    message.hidden = true;
+    
     const futureAgenda = removePastDates(userAgenda);
+    if(futureAgenda.length===0){
+      message.hidden=false
+      agendaList.innerHTML=""
+    }else{
+message.hidden = true;
+displayAgenda(sortAgenda(futureAgenda))
+    }
     displayAgenda(sortAgenda(futureAgenda));
   }
   topicForm.hidden = false;
