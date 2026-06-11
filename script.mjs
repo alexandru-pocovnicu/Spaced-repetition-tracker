@@ -20,6 +20,16 @@ window.onload = function () {
   topicForm.addEventListener("submit", formSubmit);
 };
 
+function removePastDates(agenda){
+  const today=new Date(getTodayDate()) 
+  return agenda.filter((item)=>{
+    const itemDate=new Date(item.date)
+    return itemDate>=today
+  })
+}
+function sortAgenda(agenda){
+return agenda.sort((a,b)=>new Date(a.date)-new Date(b.date))
+}
 function getTodayDate(){
   const today=new Date()
   return today.toISOString().split("T")[0]
@@ -41,7 +51,8 @@ function formSubmit(event) {
   addData(selectedUserId,agendaItems)
   const updatedAgenda=getData(selectedUserId)||[]
   message.hidden=true
-  displayAgenda(updatedAgenda)
+  const futureAgenda=removePastDates(updatedAgenda)
+  displayAgenda(sortAgenda(futureAgenda))
   topicName.value=""
   revisionDate.value=getTodayDate()
 }
@@ -110,7 +121,8 @@ function selectedUser() {
     agendaList.innerHTML = "";
   } else {
     message.hidden = true;
-    displayAgenda(userAgenda);
+    const futureAgenda = removePastDates(userAgenda);
+    displayAgenda(sortAgenda(futureAgenda));
   }
   topicForm.hidden = false;
 }
