@@ -63,7 +63,7 @@ function formSubmit(event) {
   revisionDate.value = getTodayDate();
 }
 
-function createAgendaItem(topic, startDate) {
+export function createAgendaItem(topic, startDate) {
   const date = new Date(startDate);
   const oneWeek = new Date(date);
   oneWeek.setDate(oneWeek.getDate() + 7);
