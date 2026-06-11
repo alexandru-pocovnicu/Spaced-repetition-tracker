@@ -14,10 +14,16 @@ window.onload = function () {
   topicForm = document.getElementById("topic-form");
   topicName = document.getElementById("topic-name");
   revisionDate = document.getElementById("revision-date");
+  revisionDate.value=getTodayDate()
   addUsersToDropdown();
   usersDropdown.addEventListener("change", selectedUser);
   topicForm.addEventListener("submit", formSubmit);
 };
+
+function getTodayDate(){
+  const today=new Date()
+  return today.toISOString().split("T")[0]
+}
 
 function formSubmit(event) {
   event.preventDefault();
@@ -32,6 +38,12 @@ function formSubmit(event) {
   const date = revisionDate.value;
 
   const agendaItems = createAgendaItem(topic, date);
+  addData(selectedUserId,agendaItems)
+  const updatedAgenda=getData(selectedUserId)||[]
+  message.hidden=true
+  displayAgenda(updatedAgenda)
+  topicName.value=""
+  revisionDate.value=getTodayDate()
 }
 
 function createAgendaItem(topic, startDate) {
